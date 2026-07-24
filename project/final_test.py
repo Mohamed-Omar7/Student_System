@@ -5,10 +5,10 @@ from tkinter import Tk, filedialog, Label, Button, messagebox, StringVar, Option
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
-import pyttsx3 # voice
+import pyttsx3 
 
 class StudentSystem:
-    def __init__(self):  # <-- Correct constructor name
+    def __init__(self):  
         # Initialize both systems
         self.load_known_faces()
         self.load_student_data()
@@ -33,15 +33,15 @@ class StudentSystem:
         self.grade_frame = Label(self.root, text="Grade Prediction", font=("Arial", 14))
         self.grade_frame.pack(pady=10)
         
-        # Subject dropdown
-
+        
+        #subject
         self.subject_var = StringVar(self.root)
         self.subject_var.set("Select Subject")
-        self.subject_menu = OptionMenu(self.root, self.subject_var, *self.available_subjects) # (*) to make a seprated list
+        self.subject_menu = OptionMenu(self.root, self.subject_var, *self.available_subjects) 
         self.subject_menu.config(width=20)
         self.subject_menu.pack(pady=5)
         
-        # Student dropdown
+        # Student 
         self.student_var = StringVar(self.root)
         self.student_var.set("Select Student")
         self.student_menu = OptionMenu(self.root, self.student_var, *self.available_students)
@@ -59,14 +59,16 @@ class StudentSystem:
         self.known_face_encodings = []
         self.known_face_names = []
         
-        if not os.path.exists("known_faces"):
-            os.makedirs("known_faces")
+        known_faces_dir = r"D:\al_test\pythonXvs\project\known_faces"
+        
+        if not os.path.exists(known_faces_dir):
+            os.makedirs(known_faces_dir)
             messagebox.showinfo("Info", "Created 'known_faces' folder. Please add student images there.")
             return
             
-        for filename in os.listdir("known_faces"):
+        for filename in os.listdir(known_faces_dir):
             if filename.endswith((".jpg", ".png", ".jpeg")):
-                path = os.path.join("known_faces", filename)
+                path = os.path.join(known_faces_dir, filename)
                 image = face_recognition.load_image_file(path)
                 encodings = face_recognition.face_encodings(image)
                 if encodings:
@@ -75,7 +77,7 @@ class StudentSystem:
     
     def load_student_data(self):
         try:
-            self.data = pd.read_excel('d:\\al_test\\pythonXvs\\project\\students.xlsx')
+            self.data = pd.read_excel(r'D:\al_test\pythonXvs\project\students.xlsx')
             self.available_subjects = sorted(self.data["Subject"].unique())
             self.available_students = sorted(self.data["Student Name"].unique())
         except FileNotFoundError:
@@ -83,7 +85,7 @@ class StudentSystem:
             self.root.destroy()
     
     def upload_image(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Image Files", ".jpg;.png;*.jpeg")])
+        file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.jpg;*.png;*.jpeg")])
         if not file_path:
             return
             
@@ -154,7 +156,6 @@ class StudentSystem:
     def run(self):
         self.root.mainloop() 
 
-# Run the application
-if __name__ == "__main__":  # <-- Correct way to check
+if __name__ == "__main__":
     app = StudentSystem()
     app.run()
