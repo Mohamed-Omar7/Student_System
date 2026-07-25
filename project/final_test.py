@@ -59,7 +59,7 @@ class StudentSystem:
         self.known_face_encodings = []
         self.known_face_names = []
         
-        known_faces_dir = r"D:\al_test\pythonXvs\project\known_faces"
+        known_faces_dir = r"D:\al_test\pythonXvs\project\known_faces" #add your known faces path
         
         if not os.path.exists(known_faces_dir):
             os.makedirs(known_faces_dir)
@@ -77,7 +77,7 @@ class StudentSystem:
     
     def load_student_data(self):
         try:
-            self.data = pd.read_excel(r'D:\al_test\pythonXvs\project\students.xlsx')
+            self.data = pd.read_excel(r'D:\al_test\pythonXvs\project\students.xlsx') #add excel file path
             self.available_subjects = sorted(self.data["Subject"].unique())
             self.available_students = sorted(self.data["Student Name"].unique())
         except FileNotFoundError:
